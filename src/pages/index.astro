@@ -1,179 +1,43 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BentoCard from "../components/BentoCard.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-const currentDrop = {
-  title: "Barefoot Power",
-  href: "/latest", // Assumption: placeholder or actual link
-  note: "Barefoot dominance training",
-};
-
-const coreLinks = [
-  {
-    title: "Subscribe / Full Access",
-    href: "/Subscribe",
-    note: "Subscrib!",
-  },
-  { title: "Store", href: "/store", note: "Official Merch" },
-];
-
-const optionalLinks = [
-  { title: "Referrals", href: "/referrals", note: "Mission Statement" },
-  {
-    title: "Youtube",
-    href: "https://www.youtube.com/@robgrappl3r",
-    note: "Subscribe to the channel",
-  },
-  {
-    title: "X(formerly Twitter)",
-    href: "https://x.com/Robgrappler",
-    note: "Follow me",
-  },
-];
+// Fetch all links and sort by 'order'
+const links = (await getCollection("links")).sort(
+  (a: CollectionEntry<"links">, b: CollectionEntry<"links">) =>
+    a.data.order - b.data.order,
+);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HUB | Robgrappler</title>
-    <!-- Analytics placeholder: add here if needed -->
-  </head>
-  <body
-    class="bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-800 selection:text-zinc-200"
-  >
-    <main class="min-h-screen px-6 py-10 relative overflow-hidden">
-      <!-- Background Mood (Header Only) -->
-      <div class="absolute top-0 left-0 w-full h-96 pointer-events-none z-0">
-        <div
-          class="absolute inset-0 bg-[url('/assets/bg/hub-header-texture.jpg')] bg-cover bg-center opacity-[0.10] mix-blend-overlay"
-        >
-        </div>
-        <div
-          class="absolute inset-0 bg-gradient-to-b from-transparent to-zinc-950"
-        >
-        </div>
-      </div>
+<BaseLayout title="Robgrappler's | Digital Garden">
+  <div class="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <header class="mb-12 flex flex-col gap-2">
+      <span
+        class="font-sans text-xs font-bold uppercase tracking-[0.2em] text-sub-grey"
+      >
+        Digital Matroom v2.0
+      </span>
+      <h1
+        class="font-b612 text-5xl font-black tracking-tight text-white sm:text-7xl"
+      >
+        Robgrappler's
+      </h1>
+      <p class="max-w-xl font-sans text-lg text-sub-paper/80">
+        Grappling, Tech and Digital Archiving. (Work in Progress)
+      </p>
+    </header>
 
-      <div class="relative z-10 mx-auto w-full max-w-2xl space-y-12">
-        <header
-          class="space-y-4 text-center sm:text-left"
-          aria-labelledby="page-title"
-        >
-          <div class="space-y-2">
-            <h1
-              id="page-title"
-              class="text-xs uppercase tracking-[0.35em] text-zinc-500 font-bold"
-            >
-              HUB
-            </h1>
-            <p class="text-3xl font-semibold text-zinc-50 tracking-tight">
-              All current drops and access points.
-            </p>
-          </div>
-        </header>
-
-        <!-- CURRENT DROP (Primary) -->
-        <section aria-label="Current Drop">
-          <div class="flex items-center justify-between mb-4">
-            <h2
-              class="text-xs uppercase tracking-[0.25em] text-zinc-500 font-semibold"
-            >
-              Current Drop
-            </h2>
-          </div>
-          <a
-            href={currentDrop.href}
-            class="block group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/50 p-8 hover:border-zinc-600 transition-all duration-300 hover:shadow-lg hover:shadow-zinc-900/50"
-          >
-            <div
-              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-            >
-              <div>
-                <h3
-                  class="text-xl font-bold text-white mb-1 group-hover:text-zinc-200 transition-colors"
-                >
-                  {currentDrop.title}
-                </h3>
-                <p class="text-sm text-zinc-400">{currentDrop.note}</p>
-              </div>
-              <span
-                class="btn btn-sm btn-outline btn-neutral rounded-md px-5 border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-zinc-500 transition-all"
-              >
-                OPEN
-              </span>
-            </div>
-            <!-- Subtle glow effect -->
-            <div
-              class="absolute inset-0 bg-gradient-to-r from-zinc-800/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-            >
-            </div>
-          </a>
-        </section>
-
-        <!-- CORE LINKS (Secondary) -->
-        <section aria-label="Core Links" class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h2
-              class="text-xs uppercase tracking-[0.25em] text-zinc-500 font-semibold"
-            >
-              Core Links
-            </h2>
-          </div>
-          <ul class="space-y-3">
-            {
-              coreLinks.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class="card card-side card-compact bg-zinc-950/60 border border-zinc-900 p-4 rounded-lg hover:border-zinc-700 transition-colors group"
-                  >
-                    <div class="card-body flex-row justify-between items-center p-0 w-full">
-                      <div>
-                        <h3 class="card-title text-sm font-medium text-zinc-200 group-hover:text-white">
-                          {item.title}
-                        </h3>
-                        <p class="text-xs text-zinc-500">{item.note}</p>
-                      </div>
-                      <span class="btn btn-xs btn-ghost text-xs text-zinc-500 uppercase tracking-widest group-hover:text-zinc-300">
-                        Open
-                      </span>
-                    </div>
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </section>
-
-        <!-- OPTIONAL (Extras) -->
-        <section aria-label="Optional Links" class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h2
-              class="text-xs uppercase tracking-[0.25em] text-zinc-500 font-semibold"
-            >
-              Secondary Access
-            </h2>
-          </div>
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {
-              optionalLinks.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class="card card-compact bg-transparent border border-zinc-900/50 hover:border-zinc-800 p-3 rounded-lg transition-colors group"
-                  >
-                    <div class="card-body p-0">
-                      <h3 class="text-sm text-zinc-400 group-hover:text-zinc-300 text-center sm:text-left">
-                        {item.title}
-                      </h3>
-                    </div>
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </section>
-      </div>
+    <main class="grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[180px]">
+      {links.map((link: CollectionEntry<"links">) => <BentoCard link={link} />)}
     </main>
-  </body>
-</html>
+
+    <footer
+      class="mt-20 border-t border-main-surface pt-8 text-center sm:text-left"
+    >
+      <p class="font-sans text-xs text-sub-grey uppercase tracking-widest">
+        © {new Date().getFullYear()} Robgrappler. All rights reserved.
+      </p>
+    </footer>
+  </div>
+</BaseLayout>

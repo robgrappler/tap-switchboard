@@ -1,6 +1,6 @@
-# tap-switchboard
+# site.robpins.me
 
-Lightweight, standalone tap-in links page for `tap.robpins.me`. This repo is independent from any other site and ships a single static page built with Astro + Tailwind.
+A clean, minimal public hub for Rob Pins.
 
 ## Local development
 
@@ -9,21 +9,16 @@ npm install
 npm run dev
 ```
 
-Astro will print the local URL in the terminal.
+## Netlify deployment
 
-## Build
+1. Push the repo to GitHub.
+2. Create a new Netlify site from the repo.
+3. Netlify will use the included `netlify.toml`:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+   - Node version: `20`
 
-```bash
-npm run build
-```
+## Editing links and projects
 
-The static output is in `dist/`.
-
-## Deploy
-
-Deploy the `dist/` folder to any static host. For Netlify, Vercel, or Cloudflare Pages, use:
-
-- Build command: `npm run build`
-- Output directory: `dist`
-
-No environment variables or backend services are required.
+All outbound links and projects live in `src/data/config.ts`.
+Update the entries there to add, remove, or edit links and project items.

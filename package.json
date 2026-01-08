@@ -1,6 +1,6 @@
 {
-  "name": "tap-switchboard",
-  "version": "0.1.0",
+  "name": "site-robpins-me",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,8 +10,13 @@
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",
-    "astro": "^5.16.6",
-    "flyonui": "^2.4.1",
-    "tailwindcss": "^3.4.10"
+    "astro": "^4.16.5",
+    "flyonui": "^2.4.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.4"
   }
 }
