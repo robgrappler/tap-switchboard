@@ -6,7 +6,23 @@ interface Props {
 }
 
 const { link } = Astro.props;
-const { data } = link;
+const { data, slug } = link;
+
+const ctaLabels: Record<string, string> = {
+    "01-start-here": "Open",
+    "02-youtube": "Watch",
+    "03-newsletter": "Subscribe",
+    "04-database": "Browse",
+    "05-twitter": "Read",
+    "06-instagram": "Follow",
+    "07-vault": "Enter",
+    "09-referrals": "View",
+};
+
+const ctaLabel = ctaLabels[slug] ?? "Open";
+const ctaLabelUpper = ctaLabel.toUpperCase();
+const isPrimary = slug === "01-start-here" || slug === "04-database";
+const isVault = slug === "07-vault";
 
 const sizeClasses: Record<string, string> = {
     small: "col-span-1 md:col-span-1",
@@ -47,7 +63,7 @@ const styleClasses: Record<string, string> = {
 
     // 5. MINIMAL: No background, just text. (Good for simple lists)
     minimal:
-        "bg-transparent border-white/10 text-gray-500 hover:text-[#F5C265] hover:border-[#F5C265]/50 hover:translate-x-1",
+        "bg-transparent border-white/10 text-gray-500 hover:text-[#F5C265] hover:border-[#F5C265]/50 hover:translate-x-1 focus-visible:text-[#F5C265] focus-visible:border-[#F5C265]/50 focus-visible:translate-x-1",
 };
 ---
 
@@ -55,7 +71,7 @@ const styleClasses: Record<string, string> = {
     href={data.url}
     target={data.url.startsWith("http") ? "_blank" : "_self"}
     rel={data.url.startsWith("http") ? "noopener noreferrer" : undefined}
-    class={`bento-card group relative flex flex-col justify-between overflow-hidden rounded-xl border p-4 transition-all duration-500 hover:shadow-2xl hover:shadow-[#F5C265]/10 gap-3 ${sizeClasses[data.bentoSize]} ${styleClasses[data.style]}`}
+    class={`bento-card group relative flex flex-col justify-between overflow-hidden rounded-xl border p-4 transition-all duration-500 hover:shadow-2xl hover:shadow-[#F5C265]/10 focus-visible:shadow-2xl focus-visible:shadow-[#F5C265]/10 focus-visible:border-[#F5C265]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C265] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0b0e] gap-3 ${sizeClasses[data.bentoSize]} ${styleClasses[data.style]}`}
 >
     {
         data.image && (
@@ -63,7 +79,7 @@ const styleClasses: Record<string, string> = {
                 <img
                     src={data.image}
                     alt={data.label}
-                    class="h-full w-full object-cover opacity-40 transition-opacity duration-500 group-hover:opacity-20 mix-blend-overlay"
+                    class="h-full w-full object-cover opacity-40 transition-opacity duration-500 group-hover:opacity-20 group-focus-visible:opacity-20 mix-blend-overlay"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/80 to-transparent" />
             </div>
@@ -75,9 +91,9 @@ const styleClasses: Record<string, string> = {
             {
                 data.icon && (
                     <div
-                        class={`flex h-6 w-6 items-center justify-center rounded bg-[#2a2a2a] transition-colors group-hover:bg-[#F5C265]/20`}
+                        class={`flex h-6 w-6 items-center justify-center rounded bg-[#2a2a2a] transition-colors group-hover:bg-[#F5C265]/20 group-focus-visible:bg-[#F5C265]/20`}
                     >
-                        <span class="font-bebas text-xs tracking-widest opacity-80 text-gray-300 group-hover:text-[#F5C265]">
+                        <span class="font-bebas text-xs tracking-widest opacity-80 text-gray-300 group-hover:text-[#F5C265] group-focus-visible:text-[#F5C265]">
                             {data.icon.substring(0, 2)}
                         </span>
                     </div>
@@ -92,9 +108,18 @@ const styleClasses: Record<string, string> = {
 
         {
             data.description && (
-                <p class="font-sans text-xs leading-relaxed max-w-[95%] text-gray-400 group-hover:text-white/90 transition-colors line-clamp-2">
+                <p class="font-sans text-xs leading-relaxed max-w-[95%] text-gray-400 group-hover:text-white/90 group-focus-visible:text-white/90 transition-colors line-clamp-2">
                     {data.description}
                 </p>
+            )
+        }
+        {
+            isVault && (
+                <div
+                    class="mt-2 h-6 w-full rounded-md border border-[#F5C265]/20 bg-[linear-gradient(110deg,rgba(245,194,101,0.2),rgba(24,20,12,0.7),rgba(245,194,101,0.12))] opacity-80"
+                    aria-hidden="true"
+                >
+                </div>
             )
         }
     </div>
@@ -104,19 +129,23 @@ const styleClasses: Record<string, string> = {
             class={`text-[10px] font-bold uppercase tracking-[0.25em] transition-colors ${
                 data.style === "hero"
                     ? "text-[#F5C265]"
-                    : "text-gray-500 group-hover:text-[#F5C265]"
+                    : "text-gray-500 group-hover:text-[#F5C265] group-focus-visible:text-[#F5C265]"
             }`}
         >
-            {data.style === "hero" ? "START HERE" : "LINK"}
+            {ctaLabelUpper}
         </span>
 
         <div
-            class={`flex items-center gap-1.5 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all border border-transparent hover:-translate-y-0.5 opacity-0 group-hover:opacity-100 duration-300 
-        ${data.style === "accent" ? "bg-[#F5C265] text-black hover:bg-white hover:text-black hover:shadow-lg hover:shadow-[#F5C265]/20" : "bg-[#2a2a2a] text-gray-300 border-white/10 group-hover:border-[#F5C265] hover:bg-[#F5C265] hover:text-black hover:shadow-lg hover:shadow-[#F5C265]/20"}`}
+            class={`flex items-center gap-1.5 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all border hover:-translate-y-0.5 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 duration-300 
+        ${
+            isPrimary
+                ? "border-transparent bg-[#F5C265] text-black hover:bg-white hover:text-black hover:shadow-lg hover:shadow-[#F5C265]/20"
+                : "border-[#F5C265]/20 bg-[#1f1f1f] text-[#F5C265] hover:bg-[#F5C265]/20 hover:border-[#F5C265]/40"
+        }`}
         >
-            <span>Open</span>
+            <span>{ctaLabel}</span>
             <svg
-                class="h-2.5 w-2.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                class="h-2.5 w-2.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-focus-visible:-translate-y-0.5 group-focus-visible:translate-x-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -131,7 +160,7 @@ const styleClasses: Record<string, string> = {
     </div>
 
     <div
-        class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
         style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(245, 194, 101, 0.06), transparent 40%);"
     >
     </div>
