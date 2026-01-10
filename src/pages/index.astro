@@ -4,9 +4,20 @@ import BentoCard from "../components/BentoCard.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 // Fetch all links and sort by 'order'
+type LinkEntry = CollectionEntry<"links">;
+
 const links = (await getCollection("links")).sort(
-  (a: CollectionEntry<"links">, b: CollectionEntry<"links">) =>
-    a.data.order - b.data.order,
+  (a: LinkEntry, b: LinkEntry) => a.data.order - b.data.order,
+);
+
+const youtubeLink = links.find((l: LinkEntry) => l.slug === "02-youtube");
+const youtubeUrl = youtubeLink?.data.url || "#";
+
+const otherLinks = links.filter(
+  (l: LinkEntry) =>
+    !["01-start-here", "02-youtube", "03-newsletter", "04-database"].includes(
+      l.slug,
+    ),
 );
 ---
 
@@ -28,9 +39,171 @@ const links = (await getCollection("links")).sort(
       </p>
     </header>
 
-    <main class="grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[180px]">
-      {links.map((link: CollectionEntry<"links">) => <BentoCard link={link} />)}
-    </main>
+    <div
+      class="w-full max-w-7xl mx-auto p-4 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
+    >
+      <!-- START HERE (col-span-2) -->
+      <a
+        href="/start"
+        class="col-span-2 md:col-span-2 bg-[#1a1a1a] border border-[#F5C265]/20 rounded-xl p-5 flex flex-col justify-between h-40 relative overflow-hidden group transition-transform hover:scale-[1.01]"
+      >
+        <div class="z-10 relative">
+          <div class="flex items-center gap-2 mb-1">
+            <span
+              class="bg-[#2a2a2a] text-[#F5C265] text-xs font-bold px-1.5 py-0.5 rounded"
+              >ST</span
+            >
+            <h3 class="text-white font-bebas text-xl tracking-wide">
+              START HERE
+            </h3>
+          </div>
+          <p class="text-gray-400 text-xs leading-relaxed max-w-[80%]">
+            Pick a lane. Watch, explore the archive, or read the breakdown.
+          </p>
+        </div>
+        <div
+          class="self-end bg-[#2a2a2a] text-[#F5C265] text-[10px] font-bold px-3 py-1.5 rounded group-hover:bg-[#F5C265] group-hover:text-black transition-colors uppercase tracking-wider hover:-translate-y-0.5 transition-transform opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          Open ↗
+        </div>
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-transparent pointer-events-none"
+        >
+        </div>
+      </a>
+
+      <!-- THE ESSENTIALS (col-span-1) -->
+      <a
+        href={youtubeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="col-span-1 bg-[#1a1a1a] border border-white/10 rounded-xl p-3 flex flex-col justify-between h-36 relative group transition-transform hover:scale-[1.02]"
+      >
+        <div class="flex items-center gap-2 mb-2">
+          <span
+            class="bg-[#2a2a2a] text-gray-300 text-[10px] font-bold px-1.5 py-0.5 rounded"
+            >YT</span
+          >
+        </div>
+        <div class="relative z-10 flex flex-col gap-1">
+          <h3 class="text-white font-bebas text-lg leading-none mb-1">
+            THE ESSENTIALS
+          </h3>
+        </div>
+
+        <div class="relative z-10 flex items-end justify-between mt-2">
+          <span
+            class="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500 group-hover:text-[#F5C265] transition-colors"
+          >
+            LINK
+          </span>
+          <div
+            class="flex items-center gap-1.5 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all border border-transparent bg-[#F5C265] text-black hover:bg-white hover:text-black hover:shadow-lg hover:shadow-[#F5C265]/20 hover:-translate-y-0.5 opacity-0 group-hover:opacity-100 duration-300"
+          >
+            <span>Open</span>
+            <svg
+              class="h-2.5 w-2.5 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 17L17 7M17 7H7M17 7V17"></path>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- MATCH DB (col-span-1) -->
+      <a
+        href="/archive"
+        class="col-span-1 bg-[#1a1a1a] border border-white/10 rounded-xl p-3 flex flex-col justify-between h-36 group transition-transform hover:scale-[1.02]"
+      >
+        <div class="flex items-center gap-2 mb-2">
+          <span
+            class="bg-[#2a2a2a] text-gray-300 text-[10px] font-bold px-1.5 py-0.5 rounded"
+            >DB</span
+          >
+        </div>
+        <div class="relative z-10 flex flex-col gap-1">
+          <h3 class="text-white font-bebas text-lg leading-none mb-1">
+            MATCH DB
+          </h3>
+        </div>
+
+        <div class="relative z-10 flex items-end justify-between mt-2">
+          <span
+            class="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500 group-hover:text-[#F5C265] transition-colors"
+          >
+            LINK
+          </span>
+          <div
+            class="flex items-center gap-1.5 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all border border-white/10 bg-[#2a2a2a] text-gray-300 group-hover:border-[#F5C265] hover:bg-[#F5C265] hover:text-black hover:shadow-lg hover:shadow-[#F5C265]/20 hover:-translate-y-0.5 opacity-0 group-hover:opacity-100 duration-300"
+          >
+            <span>Open</span>
+            <svg
+              class="h-2.5 w-2.5 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 17L17 7M17 7H7M17 7V17"></path>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- THE BREAKDOWN (col-span-2) -->
+      <a
+        href="/breakdown"
+        class="col-span-2 md:col-span-2 bg-[#1a1a1a] border border-purple-500/20 rounded-xl p-4 flex flex-col justify-between h-36 group transition-transform hover:scale-[1.01]"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col justify-center">
+            <h3 class="text-white font-bebas text-xl">THE BREAKDOWN</h3>
+            <p class="text-gray-500 text-xs">Weekly notes. No spam.</p>
+          </div>
+          <div
+            class="h-8 w-8 rounded-full bg-purple-900/20 flex items-center justify-center text-[#F5C265] text-xs font-bold"
+          >
+            NW
+          </div>
+        </div>
+
+        <div class="self-end">
+          <div
+            class="hidden group-hover:flex items-center gap-1.5 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all border border-transparent bg-[#F5C265] text-black shadow-lg shadow-[#F5C265]/20 hover:-translate-y-0.5"
+          >
+            <span>Open</span>
+            <svg
+              class="h-2.5 w-2.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 17L17 7M17 7H7M17 7V17"></path>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Remaining Links -->
+      {
+        otherLinks.length > 0 &&
+          otherLinks.map((link: LinkEntry) => <BentoCard link={link} />)
+      }
+    </div>
 
     <footer
       class="mt-20 border-t border-main-surface pt-8 text-center sm:text-left"

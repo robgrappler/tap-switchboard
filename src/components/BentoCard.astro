@@ -22,32 +22,32 @@ const sizeClasses: Record<string, string> = {
 
 // OPTION 3 PALETTE: All Dark, Distinction via Borders & Text
 const styleClasses: Record<string, string> = {
-    // Standard: Dark Purple, Subtle White Border. Hover = Gold Border.
+    // Standard: Dark Grey, Subtle White Border. Hover = Gold Border.
     default:
-        "bg-main-surface border-white/5 hover:border-main-gold/50 text-white",
+        "bg-[#1a1a1a] border-white/10 hover:border-[#F5C265]/50 text-white",
 
-    // Emphasis: Dark Purple, GOLD Border permanently.
-    accent: "bg-main-surface border-main-gold/60 hover:border-main-gold text-white shadow-2xl shadow-main-gold/5",
+    // Emphasis: Dark Grey, GOLD Border permanently.
+    accent: "bg-[#1a1a1a] border-[#F5C265]/60 hover:border-[#F5C265] text-white shadow-2xl shadow-[#F5C265]/5",
 
-    // Hero: Dark Purple, Subtle Gradient.
-    hero: "bg-gradient-to-br from-main-surface to-[#2A1B3D] border-white/10 hover:border-main-gold/50 text-white",
+    // Hero: Dark Grey, Subtle Gradient.
+    hero: "bg-gradient-to-br from-[#1a1a1a] to-[#2A1B3D] border-white/10 hover:border-[#F5C265]/50 text-white",
 
     // 1. GLASS: Frosted look, great for media or images underneath
     glass: "bg-white/5 backdrop-blur-lg border-white/10 text-white hover:bg-white/10 hover:border-white/20",
 
     // 2. TERMINAL: Tech-focused, monospaced vibe (Good for Github/Code)
     terminal:
-        "bg-[#0a0a0a] border-sub-grey/20 text-main-gold font-mono hover:border-main-gold/50",
+        "bg-[#0a0a0a] border-white/10 text-[#F5C265] font-mono hover:border-[#F5C265]/50",
 
     // 3. SOLID GOLD: High contrast, black text (Use sparingly for "Buy" buttons)
-    solid: "bg-main-gold border-main-gold text-black hover:bg-white hover:border-white",
+    solid: "bg-[#F5C265] border-[#F5C265] text-black hover:bg-white hover:border-white",
 
     // 4. MESH: A subtle top-right spotlight gradient (Good for 'Featured' content)
-    mesh: "bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-main-surface via-main-surface to-[#514d28] border-white/10 text-white",
+    mesh: "bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#1a1a1a] to-[#514d28] border-white/10 text-white",
 
     // 5. MINIMAL: No background, just text. (Good for simple lists)
     minimal:
-        "bg-transparent border-white/10 text-sub-grey hover:text-main-gold hover:border-main-gold/50 hover:translate-x-1",
+        "bg-transparent border-white/10 text-gray-500 hover:text-[#F5C265] hover:border-[#F5C265]/50 hover:translate-x-1",
 };
 ---
 
@@ -55,7 +55,7 @@ const styleClasses: Record<string, string> = {
     href={data.url}
     target={data.url.startsWith("http") ? "_blank" : "_self"}
     rel={data.url.startsWith("http") ? "noopener noreferrer" : undefined}
-    class={`bento-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 transition-all duration-500 hover:shadow-2xl hover:shadow-main-gold/10 gap-4 ${sizeClasses[data.bentoSize]} ${styleClasses[data.style]}`}
+    class={`bento-card group relative flex flex-col justify-between overflow-hidden rounded-xl border p-4 transition-all duration-500 hover:shadow-2xl hover:shadow-[#F5C265]/10 gap-3 ${sizeClasses[data.bentoSize]} ${styleClasses[data.style]}`}
 >
     {
         data.image && (
@@ -65,26 +65,26 @@ const styleClasses: Record<string, string> = {
                     alt={data.label}
                     class="h-full w-full object-cover opacity-40 transition-opacity duration-500 group-hover:opacity-20 mix-blend-overlay"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-main-surface via-main-surface/80 to-transparent" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/80 to-transparent" />
             </div>
         )
     }
 
-    <div class="relative z-10 flex flex-col gap-3">
-        <div class="flex items-center gap-3">
+    <div class="relative z-10 flex flex-col gap-2">
+        <div class="flex items-center gap-2">
             {
                 data.icon && (
                     <div
-                        class={`flex h-8 w-8 items-center justify-center rounded-full bg-white/5 transition-colors group-hover:bg-main-gold/20`}
+                        class={`flex h-6 w-6 items-center justify-center rounded bg-[#2a2a2a] transition-colors group-hover:bg-[#F5C265]/20`}
                     >
-                        <span class="font-bebas text-sm tracking-widest opacity-80 text-white group-hover:text-main-gold">
+                        <span class="font-bebas text-xs tracking-widest opacity-80 text-gray-300 group-hover:text-[#F5C265]">
                             {data.icon.substring(0, 2)}
                         </span>
                     </div>
                 )
             }
             <h3
-                class="font-bebas text-3xl uppercase tracking-wide leading-none text-white"
+                class="font-bebas text-xl uppercase tracking-wide leading-none text-white"
             >
                 {data.label}
             </h3>
@@ -92,31 +92,31 @@ const styleClasses: Record<string, string> = {
 
         {
             data.description && (
-                <p class="font-sans text-sm leading-relaxed max-w-[90%] text-sub-grey group-hover:text-white/90 transition-colors line-clamp-2">
+                <p class="font-sans text-xs leading-relaxed max-w-[95%] text-gray-400 group-hover:text-white/90 transition-colors line-clamp-2">
                     {data.description}
                 </p>
             )
         }
     </div>
 
-    <div class="relative z-10 flex items-end justify-between">
+    <div class="relative z-10 flex items-end justify-between mt-2">
         <span
             class={`text-[10px] font-bold uppercase tracking-[0.25em] transition-colors ${
                 data.style === "hero"
-                    ? "text-main-gold"
-                    : "text-sub-grey group-hover:text-main-gold"
+                    ? "text-[#F5C265]"
+                    : "text-gray-500 group-hover:text-[#F5C265]"
             }`}
         >
             {data.style === "hero" ? "START HERE" : "LINK"}
         </span>
 
         <div
-            class={`flex items-center gap-2 rounded px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all border border-transparent 
-        ${data.style === "accent" ? "bg-main-gold text-main-bg hover:bg-white hover:text-black" : "bg-white/5 text-white group-hover:bg-white/10 group-hover:border-white/10"}`}
+            class={`flex items-center gap-1.5 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all border border-transparent hover:-translate-y-0.5 opacity-0 group-hover:opacity-100 duration-300 
+        ${data.style === "accent" ? "bg-[#F5C265] text-black hover:bg-white hover:text-black hover:shadow-lg hover:shadow-[#F5C265]/20" : "bg-[#2a2a2a] text-gray-300 border-white/10 group-hover:border-[#F5C265] hover:bg-[#F5C265] hover:text-black hover:shadow-lg hover:shadow-[#F5C265]/20"}`}
         >
             <span>Open</span>
             <svg
-                class="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                class="h-2.5 w-2.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -132,13 +132,14 @@ const styleClasses: Record<string, string> = {
 
     <div
         class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(255, 176, 0, 0.06), transparent 40%);"
+        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(245, 194, 101, 0.06), transparent 40%);"
     >
     </div>
 </a>
 
 <script>
     function initCards() {
+        // Simple scale effect is handled by CSS (hover:scale), but we keep the spotlight effect here
         const cards = document.querySelectorAll(".bento-card");
         cards.forEach((element) => {
             const card = element as HTMLElement;
@@ -148,18 +149,6 @@ const styleClasses: Record<string, string> = {
                 const y = e.clientY - rect.top;
                 card.style.setProperty("--x", `${x}px`);
                 card.style.setProperty("--y", `${y}px`);
-
-                // Tilt Logic
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / 60) * -1;
-                const rotateY = (x - centerX) / 60;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.005, 1.005, 1.005)`;
-            });
-            card.addEventListener("mouseleave", () => {
-                card.style.transform =
-                    "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
             });
         });
     }

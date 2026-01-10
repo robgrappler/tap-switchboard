@@ -1,4 +1,4 @@
-# site.robpins.me
+# hub.robpins.me
 
 A clean, minimal public hub for Rob Pins.
 
