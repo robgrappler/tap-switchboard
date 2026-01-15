@@ -12,8 +12,8 @@ export const ui = {
         'nav.home': 'Home',
         'nav.start': 'Start Here',
         'nav.twitter': 'Twitter',
-        'hero.title': 'Rob Grappler',
-        'hero.subtitle': 'Submission Grappling & Wrestling',
+        'hero.title': 'Robgrappler\'s',
+        'hero.subtitle': 'Grappling, Tech and Digital Archiving. (Work in Progress)',
     },
     es: {
         'site.title': 'Rob Pins (ES)',
